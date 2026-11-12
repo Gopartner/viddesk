@@ -1,6 +1,7 @@
 # VIDGET — Video Devtools Window
 
 [![CI](https://github.com/Gopartner/vidget/actions/workflows/ci.yml/badge.svg)](https://github.com/Gopartner/vidget/actions/workflows/ci.yml)
+[![Build terbaru](https://img.shields.io/github/v/release/Gopartner/vidget?include_prereleases&label=build&color=2b88d8)](https://github.com/Gopartner/vidget/releases/tag/latest-build)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Manifest V3](https://img.shields.io/badge/manifest-v3-2b88d8)
 
@@ -31,7 +32,25 @@ tetap aman di situs yang mengaktifkan Trusted Types (YouTube, dan lain-lain).
 - **Pengaman**: blokir DRM, batas rekaman 512 MB, konfirmasi sebelum tab ditutup
   saat merekam, dan sanitasi nama file.
 
-## Instalasi (mode pengembang)
+## Instalasi
+
+### Build otomatis (paling mudah)
+
+Setiap push ke `main` otomatis menghasilkan build baru di release `latest-build`:
+
+1. Unduh **[vidget-extension.zip](https://github.com/Gopartner/vidget/releases/download/latest-build/vidget-extension.zip)**.
+2. Ekstrak ke folder permanen (jangan dihapus selama extension dipakai).
+3. Buka `chrome://extensions` → aktifkan **Developer mode** → **Load unpacked** →
+   pilih folder hasil ekstrak.
+
+Release `latest-build` adalah pre-release yang **ditimpa setiap push**, sehingga link
+di atas selalu menunjuk build terbaru. Build berversi ada di halaman
+[Releases](https://github.com/Gopartner/vidget/releases).
+
+> Chrome tidak memasang file ZIP secara langsung: ekstrak dulu lalu muat sebagai
+> unpacked extension (atau publikasikan ke Chrome Web Store).
+
+### Dari source (mode pengembang)
 
 1. Buka `chrome://extensions`.
 2. Aktifkan **Developer mode**.
@@ -95,6 +114,9 @@ npm run check      # format + lint + validasi manifest
 npm run build      # membuat release/vidget-<version>.zip
 npm run icons      # generate ulang icons/*.png dari scripts/generate-icons.mjs
 ```
+
+Setiap push ke `main`, workflow CI otomatis memvalidasi project, mem-build ZIP, dan
+memperbarui release [`latest-build`](https://github.com/Gopartner/vidget/releases/tag/latest-build).
 
 Setelah mengubah `background.js`/`content.js`:
 

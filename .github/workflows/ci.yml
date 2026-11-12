@@ -38,3 +38,53 @@ jobs:
           name: vidget-extension
           path: release/*.zip
           if-no-files-found: error
+
+  publish:
+    name: Publish installable build
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: latest-build
+      cancel-in-progress: false
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download package
+        uses: actions/download-artifact@v8
+        with:
+          name: vidget-extension
+          path: dist
+
+      - name: Publish rolling pre-release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: latest-build
+        run: |
+          set -euo pipefail
+
+          VERSION=$(jq -r .version manifest.json)
+          ZIP=$(find dist -maxdepth 1 -name '*.zip' | head -n 1)
+          cp "$ZIP" dist/vidget-extension.zip
+
+          TITLE="Build otomatis v${VERSION} (#${GITHUB_RUN_NUMBER})"
+          NOTES=$(printf '%s\n\n%s\n\n%s' \
+            "Build dari commit \`${GITHUB_SHA:0:7}\` pada branch \`main\`." \
+            "**Cara pasang:** unduh \`vidget-extension.zip\`, ekstrak ke folder permanen, lalu buka \`chrome://extensions\` → aktifkan Developer mode → **Load unpacked** → pilih folder hasil ekstrak." \
+            "Workflow: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/vidget-extension.zip --clobber
+            gh release edit "$TAG" --title "$TITLE" --notes "$NOTES"
+          else
+            gh release create "$TAG" dist/vidget-extension.zip \
+              --title "$TITLE" \
+              --notes "$NOTES" \
+              --prerelease
+          fi
+
+          echo "Release $TAG siap: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/download/${TAG}/vidget-extension.zip"
