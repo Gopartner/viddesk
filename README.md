@@ -1,7 +1,7 @@
 # VIDGET — Video Devtools Window
 
 [![CI](https://github.com/Gopartner/vidget/actions/workflows/ci.yml/badge.svg)](https://github.com/Gopartner/vidget/actions/workflows/ci.yml)
-[![Build terbaru](https://img.shields.io/github/v/release/Gopartner/vidget?include_prereleases&label=build&color=2b88d8)](https://github.com/Gopartner/vidget/releases/tag/latest-build)
+[![Build terbaru](https://img.shields.io/badge/unduh-build_terbaru-2b88d8)](https://github.com/Gopartner/vidget/releases/download/latest-build/vidget-extension.zip)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Manifest V3](https://img.shields.io/badge/manifest-v3-2b88d8)
 
