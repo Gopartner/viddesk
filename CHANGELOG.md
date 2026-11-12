@@ -12,6 +12,22 @@ dan project ini memakai [Semantic Versioning](https://semver.org/lang/id/).
 - Dukungan deteksi player di iframe cross-origin lewat `all_frames`.
 - Unit test untuk pemilihan video, sanitasi nama file, dan klasifikasi stream.
 
+## [2.2.0] - 2026-11-12
+
+### Diubah
+
+- **Rebrand**: "Video Devtools Window / VIDGET" menjadi **VidDesk** — nama
+  extension, UI jendela, folder unduhan `Downloads/VidDesk/`, nama paket, dan
+  repository.
+- Prefiks internal (`VIDDESK_*`), storage key, ID host, dan global cleanup
+  diganti ke `viddesk` agar konsisten.
+- Aset rilis berganti nama menjadi `viddesk-extension.zip` / `viddesk-<version>.zip`.
+
+### Ditambahkan
+
+- CI otomatis mem-build dan mem-publish release `latest-build` pada setiap push
+  ke `main`.
+
 ## [2.1.0] - 2026-10-30
 
 ### Ditambahkan
@@ -19,7 +35,7 @@ dan project ini memakai [Semantic Versioning](https://semver.org/lang/id/).
 - Jendela mengambang bergaya Windows 11 di dalam halaman (Shadow DOM).
 - Geser, ubah ukuran 8 arah, minimize, maximize, dan ingat posisi/ukuran.
 - Deteksi video otomatis tiap 2,5 detik dengan klasifikasi `FILE` / `STREAM` / `DRM`.
-- Unduh file video langsung ke `Downloads/VIDGET/` beserta progress bar.
+- Unduh file video langsung ke `Downloads/VidDesk/` beserta progress bar.
 - Rekam stream (HLS/DASH/blob) memakai `MediaRecorder`, opsi "dari awal" atau "dari sini".
 - Penyimpanan rekaman via File System Access API dengan fallback unduhan blob.
 - Guard DRM, batas rekaman 512 MB, dan pencegahan tab tertutup saat merekam.

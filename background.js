@@ -1,14 +1,14 @@
 "use strict";
 
 /**
- * Service worker VIDGET.
+ * Service worker VidDesk.
  *
  * Klik ikon extension = buka/tutup jendela di tab aktif.
  * Content script disuntikkan hanya saat dibutuhkan.
  */
 const SUPPORTED_PAGE = /^https?:\/\//i;
-const DEFAULT_TITLE = "Buka/tutup jendela VIDGET";
-const DOWNLOAD_TAB_PREFIX = "vidget-download-tab-";
+const DEFAULT_TITLE = "Buka/tutup jendela VidDesk";
+const DOWNLOAD_TAB_PREFIX = "viddesk-download-tab-";
 const downloadTabs = new Map();
 
 function sanitizeBaseName(value) {
@@ -78,7 +78,7 @@ function sendDownloadProgress(tabId, item) {
     chrome.tabs.sendMessage(
       tabId,
       {
-        type: "VIDGET_DOWNLOAD_PROGRESS",
+        type: "VIDDESK_DOWNLOAD_PROGRESS",
         downloadId: item.id,
         state: item.state,
         bytesReceived: item.bytesReceived || 0,
@@ -119,7 +119,7 @@ async function startDownload(message, sender) {
       "video";
   }
 
-  const filename = "VIDGET/" + base + (extension ? "." + extension : "");
+  const filename = "VidDesk/" + base + (extension ? "." + extension : "");
 
   const downloadId = await new Promise((resolve, reject) => {
     chrome.downloads.download(
@@ -205,7 +205,7 @@ async function showErrorBadge(tabId, reason) {
     await chrome.action.setBadgeText({ tabId, text: "!" });
     await chrome.action.setTitle({
       tabId,
-      title: reason ? "VIDGET: " + reason : "VIDGET: gagal membuka jendela",
+      title: reason ? "VidDesk: " + reason : "VidDesk: gagal membuka jendela",
     });
 
     setTimeout(() => {
@@ -234,7 +234,7 @@ async function toggleWindow(tab) {
   let response;
 
   try {
-    response = await sendToTab(tab.id, { type: "VIDGET_TOGGLE" });
+    response = await sendToTab(tab.id, { type: "VIDDESK_TOGGLE" });
   } catch (error) {
     // Content script belum ada di tab ini → suntikkan lalu coba lagi.
     try {
@@ -243,10 +243,10 @@ async function toggleWindow(tab) {
         files: ["content.js"],
       });
 
-      response = await sendToTab(tab.id, { type: "VIDGET_TOGGLE" });
+      response = await sendToTab(tab.id, { type: "VIDDESK_TOGGLE" });
     } catch (injectError) {
       console.error(
-        "[VIDGET] Gagal menyuntikkan content script:",
+        "[VidDesk] Gagal menyuntikkan content script:",
         injectError,
         { tabUrl: tab.url }
       );
@@ -260,7 +260,7 @@ async function toggleWindow(tab) {
   }
 
   if (response && response.error) {
-    console.error("[VIDGET] Gagal membuka jendela:", response.error);
+    console.error("[VidDesk] Gagal membuka jendela:", response.error);
 
     showErrorBadge(
       tab.id,
@@ -274,7 +274,7 @@ chrome.action.onClicked.addListener(toggleWindow);
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!message || typeof message !== "object") return undefined;
 
-  if (message.type === "VIDGET_DOWNLOAD") {
+  if (message.type === "VIDDESK_DOWNLOAD") {
     startDownload(message, sender)
       .then((result) => {
         sendResponse(result);

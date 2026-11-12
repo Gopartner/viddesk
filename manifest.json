@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Video Devtools Window",
-  "version": "2.1.0",
-  "description": "Jendela mengambang Windows 11: geser, ubah ukuran, ingat posisi, dan unduh video yang sedang diputar.",
+  "name": "VidDesk - Video Finder, Downloader & Recorder",
+  "short_name": "VidDesk",
+  "version": "2.2.0",
+  "description": "Jendela mengambang Windows 11 untuk mencari, mengunduh, dan merekam video di halaman web.",
   "author": "yudibilly",
   "permissions": ["activeTab", "scripting", "storage", "downloads"],
   "icons": {
@@ -12,7 +13,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "Buka/tutup jendela VIDGET",
+    "default_title": "Buka/tutup jendela VidDesk",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png"

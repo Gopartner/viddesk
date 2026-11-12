@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="VIDGET">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="VidDesk">
   <defs>
-    <linearGradient id="vidget-bg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="viddesk-bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#2b88d8"/>
       <stop offset="1" stop-color="#0067c0"/>
     </linearGradient>
   </defs>
-  <rect width="128" height="128" rx="28.16" fill="url(#vidget-bg)"/>
+  <rect width="128" height="128" rx="28.16" fill="url(#viddesk-bg)"/>
   <path d="M38.40 37.12 L64.00 92.16 L89.60 37.12" fill="none" stroke="#ffffff" stroke-width="17.28" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

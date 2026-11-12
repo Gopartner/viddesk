@@ -1,7 +1,7 @@
-# VIDGET — Video Devtools Window
+# VidDesk — Video Finder, Downloader & Recorder
 
-[![CI](https://github.com/Gopartner/vidget/actions/workflows/ci.yml/badge.svg)](https://github.com/Gopartner/vidget/actions/workflows/ci.yml)
-[![Build terbaru](https://img.shields.io/badge/unduh-build_terbaru-2b88d8)](https://github.com/Gopartner/vidget/releases/download/latest-build/vidget-extension.zip)
+[![CI](https://github.com/Gopartner/viddesk/actions/workflows/ci.yml/badge.svg)](https://github.com/Gopartner/viddesk/actions/workflows/ci.yml)
+[![Build terbaru](https://img.shields.io/badge/unduh-build_terbaru-2b88d8)](https://github.com/Gopartner/viddesk/releases/download/latest-build/viddesk-extension.zip)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Manifest V3](https://img.shields.io/badge/manifest-v3-2b88d8)
 
@@ -23,7 +23,7 @@ tetap aman di situs yang mengaktifkan Trusted Types (YouTube, dan lain-lain).
   same-origin (kedalaman 4).
 - **Klasifikasi sumber**: `FILE` (URL file langsung), `STREAM` (HLS/DASH/blob/
   MediaSource), atau `DRM`.
-- **Unduh langsung** ke folder `Downloads/VIDGET/` lewat `chrome.downloads`,
+- **Unduh langsung** ke folder `Downloads/VidDesk/` lewat `chrome.downloads`,
   lengkap dengan progress bar.
 - **Rekam stream** memakai `captureStream()` + `MediaRecorder`, dengan pilihan
   "Rekam dari awal" atau "Rekam dari sini".
@@ -38,14 +38,14 @@ tetap aman di situs yang mengaktifkan Trusted Types (YouTube, dan lain-lain).
 
 Setiap push ke `main` otomatis menghasilkan build baru di release `latest-build`:
 
-1. Unduh **[vidget-extension.zip](https://github.com/Gopartner/vidget/releases/download/latest-build/vidget-extension.zip)**.
+1. Unduh **[viddesk-extension.zip](https://github.com/Gopartner/viddesk/releases/download/latest-build/viddesk-extension.zip)**.
 2. Ekstrak ke folder permanen (jangan dihapus selama extension dipakai).
 3. Buka `chrome://extensions` → aktifkan **Developer mode** → **Load unpacked** →
    pilih folder hasil ekstrak.
 
 Release `latest-build` adalah pre-release yang **ditimpa setiap push**, sehingga link
 di atas selalu menunjuk build terbaru. Build berversi ada di halaman
-[Releases](https://github.com/Gopartner/vidget/releases).
+[Releases](https://github.com/Gopartner/viddesk/releases).
 
 > Chrome tidak memasang file ZIP secara langsung: ekstrak dulu lalu muat sebagai
 > unpacked extension (atau publikasikan ke Chrome Web Store).
@@ -54,18 +54,17 @@ di atas selalu menunjuk build terbaru. Build berversi ada di halaman
 
 1. Buka `chrome://extensions`.
 2. Aktifkan **Developer mode**.
-3. Klik **Load unpacked** lalu pilih folder project ini
-   (`D:\Video-Devtools-Window-chrome-extension`).
-4. Pin extension **Video Devtools Window** ke toolbar.
+3. Klik **Load unpacked** lalu pilih folder project ini.
+4. Pin extension **VidDesk** ke toolbar.
 
 Tidak perlu build step untuk memuat extension — file runtime ada langsung di root.
 
 ## Cara pakai
 
 1. Buka halaman berisi video (YouTube, situs streaming, atau file video langsung).
-2. Klik ikon extension di toolbar untuk membuka jendela VIDGET.
+2. Klik ikon extension di toolbar untuk membuka jendela VidDesk.
 3. Kartu "Video di halaman ini" menampilkan sumber yang terdeteksi:
-   - **FILE** → klik **Unduh video** (masuk ke `Downloads/VIDGET/`).
+   - **FILE** → klik **Unduh video** (masuk ke `Downloads/VidDesk/`).
    - **STREAM** → klik **Rekam dari awal** atau **Rekam dari sini**, lalu
      **Stop & simpan**.
    - **DRM** → tidak bisa diunduh/direkam.
@@ -111,12 +110,12 @@ dan tidak ada telemetri. Extension hanya bekerja setelah pengguna mengklik ikonn
 ```bash
 npm install        # memasang ESLint & Prettier
 npm run check      # format + lint + validasi manifest
-npm run build      # membuat release/vidget-<version>.zip
+npm run build      # membuat release/viddesk-<version>.zip
 npm run icons      # generate ulang icons/*.png dari scripts/generate-icons.mjs
 ```
 
 Setiap push ke `main`, workflow CI otomatis memvalidasi project, mem-build ZIP, dan
-memperbarui release [`latest-build`](https://github.com/Gopartner/vidget/releases/tag/latest-build).
+memperbarui release [`latest-build`](https://github.com/Gopartner/viddesk/releases/tag/latest-build).
 
 Setelah mengubah `background.js`/`content.js`:
 

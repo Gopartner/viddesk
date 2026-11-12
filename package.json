@@ -1,24 +1,24 @@
 {
-  "name": "vidget",
-  "version": "2.1.0",
+  "name": "viddesk",
+  "version": "2.2.0",
   "private": true,
-  "description": "Chrome MV3 extension: floating Windows 11-style window to find, download, and record videos playing on a page.",
+  "description": "Chrome MV3 extension: floating Windows 11-style window to find, download, and record videos on any page.",
   "keywords": [
     "chrome-extension",
     "manifest-v3",
     "video-downloader",
     "screen-recorder",
-    "vidget"
+    "viddesk"
   ],
   "author": "yudibilly",
   "license": "MIT",
-  "homepage": "https://github.com/Gopartner/vidget#readme",
+  "homepage": "https://github.com/Gopartner/viddesk#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Gopartner/vidget.git"
+    "url": "git+https://github.com/Gopartner/viddesk.git"
   },
   "bugs": {
-    "url": "https://github.com/Gopartner/vidget/issues"
+    "url": "https://github.com/Gopartner/viddesk/issues"
   },
   "engines": {
     "node": ">=20.0.0"

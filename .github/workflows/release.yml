@@ -42,5 +42,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "$GITHUB_REF_NAME" release/*.zip \
-            --title "VIDGET $GITHUB_REF_NAME" \
+            --title "VidDesk $GITHUB_REF_NAME" \
             --generate-notes

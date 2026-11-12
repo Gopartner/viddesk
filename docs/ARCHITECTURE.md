@@ -1,6 +1,6 @@
 # Arsitektur
 
-Dokumen ini menjelaskan bagaimana VIDGET bekerja dan di mana harus menambah kode
+Dokumen ini menjelaskan bagaimana VidDesk bekerja dan di mana harus menambah kode
 saat mengembangkan fitur baru.
 
 ## Komponen
@@ -23,10 +23,10 @@ tidak perlu host permission permanen.
         ▼
 background.js  ── chrome.action.onClicked ──► toggleWindow(tab)
         │
-        │ 1. chrome.tabs.sendMessage({ type: "VIDGET_TOGGLE" })
+        │ 1. chrome.tabs.sendMessage({ type: "VIDDESK_TOGGLE" })
         │        └─ gagal? (content script belum ada)
         │ 2. chrome.scripting.executeScript({ files: ["content.js"] })
-        │ 3. kirim VIDGET_TOGGLE ulang
+        │ 3. kirim VIDDESK_TOGGLE ulang
         ▼
 content.js  toggle() ──► openWindow() / closeWindow()
         │
@@ -36,13 +36,13 @@ background.js  ── gagal? ──► badge merah "!" + tooltip alasan (5 detik
 
 [unduh file langsung]
 content.js  startVideoDownload()
-        │  chrome.runtime.sendMessage({ type: "VIDGET_DOWNLOAD", url, filename, extension })
+        │  chrome.runtime.sendMessage({ type: "VIDDESK_DOWNLOAD", url, filename, extension })
         ▼
-background.js  startDownload() ──► chrome.downloads.download({ filename: "VIDGET/..." })
+background.js  startDownload() ──► chrome.downloads.download({ filename: "VidDesk/..." })
         │  catat pemetaan downloadId ➜ tabId (chrome.storage.session + Map)
         ▼
 chrome.downloads.onChanged ──► background.js  sendDownloadProgress()
-        │  chrome.tabs.sendMessage({ type: "VIDGET_DOWNLOAD_PROGRESS", ... })
+        │  chrome.tabs.sendMessage({ type: "VIDDESK_DOWNLOAD_PROGRESS", ... })
         ▼
 content.js  onDownloadProgress() ──► progress bar
 ```
@@ -53,7 +53,7 @@ Semua state hidup di closure IIFE dan di-reset oleh `dispose()`.
 
 | Variabel           | Isi                                                                     |
 | ------------------ | ----------------------------------------------------------------------- |
-| `host` / `shadow`  | Elemen `#vidget-window` dan ShadowRoot-nya                              |
+| `host` / `shadow`  | Elemen `#viddesk-window` dan ShadowRoot-nya                             |
 | `state`            | `{ left, top, width, height, maximized }` (dipersist)                   |
 | `minimized`        | Status minimize (tidak dipersist)                                       |
 | `currentVideo`     | Elemen `<video>` terpilih                                               |
@@ -63,10 +63,10 @@ Semua state hidup di closure IIFE dan di-reset oleh `dispose()`.
 
 ## Penyimpanan
 
-| Key                        | Media                    | Isi                     |
-| -------------------------- | ------------------------ | ----------------------- |
-| `vidget-window-state-v1`   | `chrome.storage.local`   | posisi & ukuran jendela |
-| `vidget-download-tab-<id>` | `chrome.storage.session` | `downloadId` ➜ `tabId`  |
+| Key                         | Media                    | Isi                     |
+| --------------------------- | ------------------------ | ----------------------- |
+| `viddesk-window-state-v1`   | `chrome.storage.local`   | posisi & ukuran jendela |
+| `viddesk-download-tab-<id>` | `chrome.storage.session` | `downloadId` ➜ `tabId`  |
 
 ## Keputusan unduh vs rekam
 
@@ -102,16 +102,16 @@ lebih dulu; jika `seekable` tidak tersedia, rekaman dimulai dari posisi sekarang
 `content.js` aman disuntik berulang kali:
 
 1. Listener `chrome.runtime.onMessage` dan `window.addEventListener("resize")`
-   versi lama dilepas lewat referensi `window.__vidget*`.
-2. `window.__vidgetCleanup` (fungsi `dispose`) dipanggil untuk menghentikan
+   versi lama dilepas lewat referensi `window.__viddesk*`.
+2. `window.__viddeskCleanup` (fungsi `dispose`) dipanggil untuk menghentikan
    watcher dan rekaman serta menghapus host lama.
-3. Host `#vidget-window` yang tertinggal dihapus, lalu UI dibangun ulang.
+3. Host `#viddesk-window` yang tertinggal dihapus, lalu UI dibangun ulang.
 
 ## Konvensi kode
 
 - Target: Chrome MV3, ES2022, tanpa build step untuk runtime.
 - Gaya: Prettier (80 kolom, double quotes, semicolon) + ESLint `recommended`.
 - Scoping: seluruh logika `content.js` dibungkus IIFE; jangan menambah global
-  baru kecuali referensi `window.__vidget*` untuk keperluan cleanup.
+  baru kecuali referensi `window.__viddesk*` untuk keperluan cleanup.
 - Semua teks UI berbahasa Indonesia; komentar kode berbahasa Indonesia.
 - Jalankan `npm run check` sebelum commit.

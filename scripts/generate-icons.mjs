@@ -162,14 +162,14 @@ function buildSvg() {
     `${(x * scale).toFixed(2)} ${(y * scale).toFixed(2)}`;
   const stroke = (MARK.thickness * scale).toFixed(2);
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${scale} ${scale}" width="${scale}" height="${scale}" role="img" aria-label="VIDGET">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${scale} ${scale}" width="${scale}" height="${scale}" role="img" aria-label="VidDesk">
   <defs>
-    <linearGradient id="vidget-bg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="viddesk-bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#2b88d8"/>
       <stop offset="1" stop-color="#0067c0"/>
     </linearGradient>
   </defs>
-  <rect width="${scale}" height="${scale}" rx="${(CORNER_RADIUS * scale).toFixed(2)}" fill="url(#vidget-bg)"/>
+  <rect width="${scale}" height="${scale}" rx="${(CORNER_RADIUS * scale).toFixed(2)}" fill="url(#viddesk-bg)"/>
   <path d="M${point(MARK.left)} L${point(MARK.tip)} L${point(MARK.right)}" fill="none" stroke="#ffffff" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;

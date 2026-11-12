@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * VIDGET — jendela mengambang bergaya Windows 11.
+ * VidDesk — jendela mengambang bergaya Windows 11.
  *
  * Dimuat ke halaman oleh background.js saat ikon extension diklik.
  * Ukuran dan posisi disimpan di chrome.storage.local sehingga saat
@@ -11,7 +11,7 @@
  * tetap berjalan di situs yang mengaktifkan Trusted Types (YouTube, dll).
  */
 (() => {
-  const STORAGE_KEY = "vidget-window-state-v1";
+  const STORAGE_KEY = "viddesk-window-state-v1";
   const DEFAULT_WIDTH = 760;
   const DEFAULT_HEIGHT = 500;
   const MIN_WIDTH = 360;
@@ -26,34 +26,34 @@
   // sisa-sisanya supaya injeksi berikutnya bisa mendaftarkan listener baru
   // tanpa perlu refresh halaman.
   try {
-    if (typeof window.__vidgetWindowListener === "function") {
-      chrome.runtime.onMessage.removeListener(window.__vidgetWindowListener);
+    if (typeof window.__viddeskWindowListener === "function") {
+      chrome.runtime.onMessage.removeListener(window.__viddeskWindowListener);
     }
   } catch (error) {
     /* konteks extension lama sudah tidak valid */
   }
 
   try {
-    if (typeof window.__vidgetResizeListener === "function") {
-      window.removeEventListener("resize", window.__vidgetResizeListener);
+    if (typeof window.__viddeskResizeListener === "function") {
+      window.removeEventListener("resize", window.__viddeskResizeListener);
     }
   } catch (error) {
     /* abaikan */
   }
 
   try {
-    if (typeof window.__vidgetCleanup === "function") {
-      window.__vidgetCleanup();
+    if (typeof window.__viddeskCleanup === "function") {
+      window.__viddeskCleanup();
     }
   } catch (error) {
     /* abaikan */
   }
 
-  window.__vidgetWindowListener = null;
-  window.__vidgetResizeListener = null;
-  window.__vidgetCleanup = null;
+  window.__viddeskWindowListener = null;
+  window.__viddeskResizeListener = null;
+  window.__viddeskCleanup = null;
 
-  const staleHost = document.getElementById("vidget-window");
+  const staleHost = document.getElementById("viddesk-window");
   if (staleHost) staleHost.remove();
 
   const STYLE = `
@@ -433,10 +433,10 @@
 
     .progress[data-indeterminate="true"] > span {
       width: 35% !important;
-      animation: vidget-progress 1.1s ease-in-out infinite;
+      animation: viddesk-progress 1.1s ease-in-out infinite;
     }
 
-    @keyframes vidget-progress {
+    @keyframes viddesk-progress {
       from {
         transform: translateX(-110%);
       }
@@ -981,7 +981,7 @@
 
     captions.append(minimize, maximize, close);
 
-    titlebar.append(appIcon, element("span", "app-title", "VIDGET"), captions);
+    titlebar.append(appIcon, element("span", "app-title", "VidDesk"), captions);
 
     const hero = element("div", "hero");
     const heroIcon = element("div", "hero-icon", "V");
@@ -989,8 +989,8 @@
 
     const heroText = element("div");
     heroText.append(
-      element("h1", null, "VIDGET"),
-      element("p", null, "Video Finder")
+      element("h1", null, "VidDesk"),
+      element("p", null, "Video Finder, Downloader & Recorder")
     );
 
     hero.append(heroIcon, heroText);
@@ -1150,7 +1150,7 @@
         return saved;
       }
     } catch (error) {
-      console.warn("[VIDGET] Gagal membaca ukuran/posisi tersimpan:", error);
+      console.warn("[VidDesk] Gagal membaca ukuran/posisi tersimpan:", error);
     }
 
     return null;
@@ -1170,7 +1170,7 @@
     try {
       await chrome.storage.local.set({ [STORAGE_KEY]: payload });
     } catch (error) {
-      console.warn("[VIDGET] Gagal menyimpan ukuran/posisi:", error);
+      console.warn("[VidDesk] Gagal menyimpan ukuran/posisi:", error);
     }
   }
 
@@ -1388,7 +1388,7 @@
       } else if (info.direct) {
         primaryLabel = "Unduh video";
         primaryDisabled = false;
-        hint = "File asli akan diunduh ke folder Unduhan/VIDGET.";
+        hint = "File asli akan diunduh ke folder Unduhan/VidDesk.";
 
         if (downloadFailed) {
           hint =
@@ -1527,7 +1527,7 @@
   }
 
   function onDownloadProgress(message) {
-    if (!message || message.type !== "VIDGET_DOWNLOAD_PROGRESS") return;
+    if (!message || message.type !== "VIDDESK_DOWNLOAD_PROGRESS") return;
     if (downloadState !== "downloading" && downloadState !== "done") return;
     if (downloadState === "done" && message.state === "in_progress") return;
     if (activeDownloadId !== null && message.downloadId !== activeDownloadId) {
@@ -1638,7 +1638,7 @@
       const response = await new Promise((resolve, reject) => {
         chrome.runtime.sendMessage(
           {
-            type: "VIDGET_DOWNLOAD",
+            type: "VIDDESK_DOWNLOAD",
             url: info.src,
             filename: info.title,
             extension: info.extension,
@@ -2449,13 +2449,13 @@
     state = normalize(saved);
 
     // Bersihkan host lama yang tertinggal (mis. extension di-reload).
-    const stale = document.getElementById("vidget-window");
+    const stale = document.getElementById("viddesk-window");
     if (stale) stale.remove();
 
     host = document.createElement("div");
-    host.id = "vidget-window";
+    host.id = "viddesk-window";
     host.setAttribute("role", "dialog");
-    host.setAttribute("aria-label", "VIDGET");
+    host.setAttribute("aria-label", "VidDesk");
 
     shadow = host.attachShadow({ mode: "open" });
     shadow.adoptedStyleSheets = [styleSheet];
@@ -2514,19 +2514,19 @@
   }
 
   const messageListener = (message, sender, sendResponse) => {
-    if (message && message.type === "VIDGET_DOWNLOAD_PROGRESS") {
+    if (message && message.type === "VIDDESK_DOWNLOAD_PROGRESS") {
       onDownloadProgress(message);
       return undefined;
     }
 
-    if (!message || message.type !== "VIDGET_TOGGLE") return undefined;
+    if (!message || message.type !== "VIDDESK_TOGGLE") return undefined;
 
     toggle()
       .then((open) => {
         sendResponse({ open });
       })
       .catch((error) => {
-        console.error("[VIDGET] Gagal membuka jendela:", error);
+        console.error("[VidDesk] Gagal membuka jendela:", error);
         sendResponse({
           open: Boolean(host),
           error: (error && error.message) || String(error),
@@ -2536,9 +2536,9 @@
     return true;
   };
 
-  window.__vidgetWindowListener = messageListener;
-  window.__vidgetResizeListener = onViewportResize;
-  window.__vidgetCleanup = dispose;
+  window.__viddeskWindowListener = messageListener;
+  window.__viddeskResizeListener = onViewportResize;
+  window.__viddeskCleanup = dispose;
 
   chrome.runtime.onMessage.addListener(messageListener);
   window.addEventListener("resize", onViewportResize);

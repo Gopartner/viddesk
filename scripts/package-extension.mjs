@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Packages the extension into release/vidget-<version>.zip containing only
+ * Packages the extension into release/viddesk-<version>.zip containing only
  * the files Chrome needs at runtime.
  *
  * Run with: npm run build
@@ -32,7 +32,7 @@ const entries = runtimeFiles.map((name) => ({
 }));
 
 const archive = createZip(entries, new Date());
-const output = resolve(RELEASE_DIR, `vidget-${manifest.version}.zip`);
+const output = resolve(RELEASE_DIR, `viddesk-${manifest.version}.zip`);
 
 mkdirSync(RELEASE_DIR, { recursive: true });
 writeFileSync(output, archive);

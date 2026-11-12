@@ -36,7 +36,7 @@ jobs:
       - name: Upload package
         uses: actions/upload-artifact@v7
         with:
-          name: vidget-extension
+          name: viddesk-extension
           path: release/*.zip
           if-no-files-found: error
 
@@ -58,7 +58,7 @@ jobs:
       - name: Download package
         uses: actions/download-artifact@v8
         with:
-          name: vidget-extension
+          name: viddesk-extension
           path: dist
 
       - name: Publish rolling pre-release
@@ -70,22 +70,22 @@ jobs:
 
           VERSION=$(jq -r .version manifest.json)
           ZIP=$(find dist -maxdepth 1 -name '*.zip' | head -n 1)
-          cp "$ZIP" dist/vidget-extension.zip
+          cp "$ZIP" dist/viddesk-extension.zip
 
           TITLE="Build otomatis v${VERSION} (#${GITHUB_RUN_NUMBER})"
           NOTES=$(printf '%s\n\n%s\n\n%s' \
             "Build dari commit \`${GITHUB_SHA:0:7}\` pada branch \`main\`." \
-            "**Cara pasang:** unduh \`vidget-extension.zip\`, ekstrak ke folder permanen, lalu buka \`chrome://extensions\` → aktifkan Developer mode → **Load unpacked** → pilih folder hasil ekstrak." \
+            "**Cara pasang:** unduh \`viddesk-extension.zip\`, ekstrak ke folder permanen, lalu buka \`chrome://extensions\` → aktifkan Developer mode → **Load unpacked** → pilih folder hasil ekstrak." \
             "Workflow: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")
 
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist/vidget-extension.zip --clobber
+            gh release upload "$TAG" dist/viddesk-extension.zip --clobber
             gh release edit "$TAG" --title "$TITLE" --notes "$NOTES"
           else
-            gh release create "$TAG" dist/vidget-extension.zip \
+            gh release create "$TAG" dist/viddesk-extension.zip \
               --title "$TITLE" \
               --notes "$NOTES" \
               --prerelease
           fi
 
-          echo "Release $TAG siap: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/download/${TAG}/vidget-extension.zip"
+          echo "Release $TAG siap: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/download/${TAG}/viddesk-extension.zip"
