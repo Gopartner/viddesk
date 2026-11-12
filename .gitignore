@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build output
+release/
+*.zip
+*.crx
+*.pem
+
+# Local / editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local scratch files (not part of the extension)
+session.text
+*.local
+.env
+.env.*

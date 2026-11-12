@@ -1,0 +1,42 @@
+{
+  "name": "vidget",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Chrome MV3 extension: floating Windows 11-style window to find, download, and record videos playing on a page.",
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "video-downloader",
+    "screen-recorder",
+    "vidget"
+  ],
+  "author": "yudibilly",
+  "license": "MIT",
+  "homepage": "https://github.com/Gopartner/vidget#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gopartner/vidget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Gopartner/vidget/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "icons": "node scripts/generate-icons.mjs",
+    "validate": "node scripts/validate-manifest.mjs",
+    "build": "npm run validate && node scripts/package-extension.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm run lint && npm run validate"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1"
+  }
+}
